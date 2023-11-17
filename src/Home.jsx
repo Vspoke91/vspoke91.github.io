@@ -1,5 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHouse, faCode, faUser } from "@fortawesome/free-solid-svg-icons";
+import spaceman from "./assets/spaceman.svg";
 
 function Home() {
   return (
@@ -26,7 +27,13 @@ function Home() {
         </nav>
       </header>
       <main>
-        <div id="home">Home</div>
+        <div id="home">
+          <img
+            className="h-[500px] w-[500px]"
+            src={spaceman}
+            alt="svg of spaceman"
+          ></img>
+        </div>
         <div id="projects">Projects</div>
         <div id="about">About</div>
       </main>
