@@ -27,15 +27,31 @@ function Home() {
         </nav>
       </header>
       <main>
-        <div id="home">
-          <img
-            className="h-[500px] w-[500px]"
-            src={spaceman}
-            alt="svg of spaceman"
-          ></img>
+        <div id="home" className="flex justify-center min-h-screen">
+          <div className="flex-1">
+            <h2>Victor Romero</h2>
+            <p>dawdaw daw daw faw f aw fawf aw fawf aw faw f aw fa wf aw </p>
+          </div>
+          <div className="flex-1">
+            <img
+              className="h-[auto] w-[30vw]"
+              src={spaceman}
+              alt="svg of spaceman"
+            />
+          </div>
+          <div className="flex-1">
+            <h2>Knowledge Hub</h2>
+            <ul>
+              <li>HTML, Javascript, CSS</li>
+              <li>Java</li>
+              <li>Python</li>
+              <li>C#</li>
+            </ul>
+          </div>
         </div>
+        <div id="media">Media</div>
         <div id="projects">Projects</div>
-        <div id="about">About</div>
+        <div id="contact">contact</div>
       </main>
     </>
   );
