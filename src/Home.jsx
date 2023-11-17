@@ -5,6 +5,7 @@ function Home() {
   return (
     <>
       <header>
+        <h1 className="font-Agbalumo">Victor Romero</h1>
         <nav>
           <ul>
             <li>
