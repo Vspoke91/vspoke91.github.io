@@ -29,23 +29,23 @@ function Home() {
           Victor R.O
         </h1>
         <div className="border-[2px] rounded-lg h-[75%] mx-4 my-auto" />
-        <nav className="flex gap-4 h-full item-center">
+        <nav className="flex gap-4 h-full">
           <ul className="contents">
-            <li className="contents">
-              <a href="#home" className="h-full flex items-center">
-                <FontAwesomeIcon icon={faHouse} className=" mr-1" />
+            <li className="flex h-full items-center">
+              <a href="#home">
+                <FontAwesomeIcon icon={faHouse} className="mr-1" />
                 <span className="font-bold">Home</span>
               </a>
             </li>
-            <li className="contents">
-              <a href="#projects" className="h-full flex items-center">
-                <FontAwesomeIcon icon={faCode} className=" mr-1" />
+            <li className="flex h-full items-center">
+              <a href="#projects">
+                <FontAwesomeIcon icon={faCode} className="mr-1" />
                 <span className="font-bold">Projects</span>
               </a>
             </li>
-            <li className="contents">
-              <a href="#about" className="h-full flex items-center">
-                <FontAwesomeIcon icon={faUser} className=" mr-1" />
+            <li className="flex h-full items-center">
+              <a href="#about">
+                <FontAwesomeIcon icon={faUser} className="mr-1" />
                 <span className="font-bold">About</span>
               </a>
             </li>
