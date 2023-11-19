@@ -4,6 +4,7 @@ export default {
   theme: {
     fontFamily: {
       Agbalumo: ["Agbalumo", "sans-serif"],
+      mono: ["Roboto Mono", "monospace", "sans-serif"],
     },
     extend: {},
   },
