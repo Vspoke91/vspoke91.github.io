@@ -1,5 +1,24 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHouse, faCode, faUser } from "@fortawesome/free-solid-svg-icons";
+import {
+  faHouse,
+  faCode,
+  faUser,
+  faEnvelope,
+  faGraduationCap,
+} from "@fortawesome/free-solid-svg-icons";
+import {
+  faGithub,
+  faLinkedin,
+  faWindows,
+  faFreeCodeCamp,
+  faHtml5,
+  faSquareJs,
+  faCss3Alt,
+  faPython,
+  faJava,
+  faGitAlt,
+} from "@fortawesome/free-brands-svg-icons";
+import csharp from "./assets/csharp.svg";
 import spaceman from "./assets/spaceman.svg";
 
 function Home() {
