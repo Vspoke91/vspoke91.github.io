@@ -7,7 +7,7 @@ function Home() {
     <>
       <header className="bg-[rgb(58,58,58)] flex h-[60px] fixed inset-x-0 top-0 z-50">
         <h1 className="font-Agbalumo text-3xl ml-[2vw] cursor-default my-auto">
-          Victor R.O
+          Victor R.O.
         </h1>
         <div className="border-[2px] rounded-lg h-[75%] mx-4 my-auto" />
         <nav className="flex gap-4 h-full">
