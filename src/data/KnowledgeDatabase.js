@@ -19,7 +19,12 @@ export default {
     level: "Proficient",
     usedTime: "1 years or Less",
     acquared: "Self Taught",
-    showcase: [projects.aiworld, projects.aiworldx],
+    showcase: [
+      projects.aiworld,
+      projects.aiworld,
+      projects.aiworld,
+      projects.aiworld,
+    ],
   },
   web: {
     name: "HTML/CSS/JavaScript",
