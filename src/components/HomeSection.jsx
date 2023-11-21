@@ -20,6 +20,9 @@ import {
 import spaceman from "../assets/spaceman.svg";
 import csharp from "../assets/csharp.svg";
 
+//Data Imports
+import KnowledgeDatabase from "../data/KnowledgeDatabase.js";
+
 // React Imports
 import { forwardRef, useImperativeHandle, useRef, useState } from "react";
 import PropTypes from "prop-types";
@@ -36,7 +39,7 @@ export default function Default() {
   return (
     <div
       id="home"
-      className="flex justify-center min-h-[calc(100vh-60px)] items-center"
+      className="flex justify-center min-h-[calc(100vh-60px)] items-center max-w-[1500px] mx-auto"
     >
       <Introduction ref={introductionRef} />
       <SVG ref={SVGRef} />
@@ -55,7 +58,7 @@ const Introduction = forwardRef((props, ref) => {
   }));
 
   return (
-    <div className="flex-1 ml-[5vh] mr-[1vh] " hidden={hidden}>
+    <div className="flex-[2] ml-[5vh] mr-[1vh] " hidden={hidden}>
       <h2 className="cursor-default">
         <span className="block text-3xl font-libre font-light">
           Hello, My name is
@@ -116,7 +119,7 @@ const SVG = forwardRef((props, ref) => {
   return (
     <div
       className="flex-1 pointer-events-none select-none"
-      style={{ flexGrow: reduce ? 0.5 : 1 }}
+      style={{ flexGrow: reduce ? 0.5 : "" }}
     >
       <img className="h-[auto] w-[30vw]" src={spaceman} alt="svg of spaceman" />
     </div>
@@ -177,11 +180,11 @@ function Knowledge({ setExpandHub }) {
               switchExpand("web");
             }}
           >
-            <div className="flex gap-1">
+            <div className="flex gap-1 items-center">
               <FontAwesomeIcon icon={faHtml5} />
               <FontAwesomeIcon icon={faSquareJs} />
               <FontAwesomeIcon icon={faCss3Alt} />
-              <span className="text-xl ml-1 hidden group-hover:block group-focus-visible:block  group-aria-expanded/hub:group-hover:hidden group-aria-expanded/hub:group-focus-visible:hidden">
+              <span className="text-sm ml-1 hidden group-hover:block group-focus-visible:block  group-aria-expanded/hub:group-hover:hidden group-aria-expanded/hub:group-focus-visible:hidden">
                 HTML / JavaScript / CSS
               </span>
             </div>
@@ -243,13 +246,63 @@ function Knowledge({ setExpandHub }) {
           />
         </li>
       </ul>
-      <div className="bg-red-900 w-fit group-aria-expanded/hub:block hidden flex-1 ml-3">
-        hello
+      <Knowledge_display
+        currentLanguage={languageSelected}
+        hidden={!expanded}
+      />
+    </div>
+  );
+}
+Knowledge.propTypes = {
+  setExpandHub: PropTypes.func.isRequired,
+};
+
+function Knowledge_display({ currentLanguage, hidden }) {
+  return (
+    <div className=" w-full border-2 border-red-900" hidden={hidden}>
+      <h3>{KnowledgeDatabase[currentLanguage]?.name ?? ""}</h3>
+      <p>
+        <span>Education:</span>
+        <span>{KnowledgeDatabase[currentLanguage]?.acquared ?? ""}</span>
+      </p>
+      <p>
+        <span>Experience:</span>
+        <span>{KnowledgeDatabase[currentLanguage]?.level ?? ""}</span>
+        <span>{` - ${
+          KnowledgeDatabase[currentLanguage]?.usedTime ?? ""
+        }`}</span>
+      </p>
+      <div>
+        <h4>Project</h4>
+        <ul className="overflow-x-auto flex cursor-grap active:cursor-grabbing">
+          {KnowledgeDatabase[currentLanguage]?.showcase.map(
+            (project, index) => (
+              <li
+                key={currentLanguage + project.name + index}
+                className="contents"
+              >
+                <a
+                  href=""
+                  className="grow-0 shrink-0 pointer-events-none select-none"
+                >
+                  <h5>{project.name}</h5>
+                  <div>
+                    <img
+                      className="w-[200px] h-auto pointer-events-none"
+                      src={project.image}
+                      alt={`Logo for ${project.name}`}
+                    />
+                  </div>
+                </a>
+              </li>
+            )
+          )}
+        </ul>
       </div>
     </div>
   );
 }
-
-Knowledge.propTypes = {
-  setExpandHub: PropTypes.func.isRequired,
+Knowledge_display.propTypes = {
+  currentLanguage: PropTypes.string.isRequired,
+  hidden: PropTypes.bool.isRequired,
 };
