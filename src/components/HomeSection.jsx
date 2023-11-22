@@ -20,10 +20,13 @@ import {
 import spaceman from "../assets/spaceman.svg";
 import csharp from "../assets/csharp.svg";
 
+//Components Imports
+import HorizontalScroll from "./customs/HorizontalScroll.jsx";
+
 //Data Imports
 import KnowledgeDatabase from "../data/KnowledgeDatabase.js";
 
-// React Imports
+//React Imports
 import { forwardRef, useImperativeHandle, useRef, useState } from "react";
 import PropTypes from "prop-types";
 
@@ -274,30 +277,29 @@ function Knowledge_display({ currentLanguage, hidden }) {
       </p>
       <div>
         <h4>Project</h4>
-        <ul className="overflow-x-auto flex cursor-grap active:cursor-grabbing">
+        <HorizontalScroll
+          className="overflow-x-auto flex"
+          childClassName="grw-0 shrink-0"
+          controlsClassName="text-5xl"
+        >
           {KnowledgeDatabase[currentLanguage]?.showcase.map(
             (project, index) => (
-              <li
+              <a
                 key={currentLanguage + project.name + index}
-                className="contents"
+                className="pointer-events-none"
               >
-                <a
-                  href=""
-                  className="grow-0 shrink-0 pointer-events-none select-none"
-                >
-                  <h5>{project.name}</h5>
-                  <div>
-                    <img
-                      className="w-[200px] h-auto pointer-events-none"
-                      src={project.image}
-                      alt={`Logo for ${project.name}`}
-                    />
-                  </div>
-                </a>
-              </li>
+                <h5>{project.name}</h5>
+                <div className="pointer-events-none">
+                  <img
+                    className="w-[200px] pointer-events-none"
+                    src={project.image}
+                    alt={`Logo for ${project.name}`}
+                  />
+                </div>
+              </a>
             )
           )}
-        </ul>
+        </HorizontalScroll>
       </div>
     </div>
   );
