@@ -6,27 +6,25 @@ import { faCaretRight, faCaretLeft } from "@fortawesome/free-solid-svg-icons";
 import PropTypes from "prop-types";
 import { useEffect, useState, useRef } from "react";
 
-export default function Default({
-  children,
-  className,
-  childClassName,
-  controlsClassName,
-}) {
+export default function Default({ children, className, controlsClassName }) {
   //React Hooks
-  const [target, setTarget] = useState(null);
+  const [target, setTarget] = useState(0);
   const [childrenRender, setChildren] = useState([]);
   const holderRef = useRef(null);
 
   useEffect(() => {
+    // Event Handlers
     function targetClickHandler(e) {
-      console.log(target);
-      if (target !== null) {
-        holderRef.current.children[target].style.backgroundColor = "";
+      const targetChild = holderRef.current.children[target];
+      const newTargetIndex = parseInt(e.target.dataset.index);
+
+      if (targetChild && target !== newTargetIndex) {
+        targetChild.removeAttribute("style");
       }
-      setTarget(parseInt(e.target.dataset.index));
-      console.log(parseInt(e.target.dataset.index) + " - target");
+      setTarget(newTargetIndex);
     }
 
+    // Children Render
     const childrenList = [];
 
     if (children && children.length > 1) {
@@ -35,7 +33,7 @@ export default function Default({
           <li
             key={index}
             data-index={index}
-            className={childClassName}
+            className="grw-0 shrink-0 scale-90"
             onClick={targetClickHandler}
           >
             {child}
@@ -45,17 +43,15 @@ export default function Default({
     } else if (children) {
       childrenList.push(<li>{children}</li>);
     }
-
-    if (childrenList.length) {
-      setTarget(0);
-    }
-
     setChildren(childrenList);
-  }, [childClassName, children, target]);
+  }, [children, target]);
 
   useEffect(() => {
-    if (target !== null) {
-      holderRef.current.children[target].style.backgroundColor = "lightblue";
+    const targetChild = holderRef.current.children[target];
+
+    if (targetChild) {
+      targetChild.style.backgroundColor = "lightblue";
+      targetChild.style.transform = "scale(1)";
     }
   }, [target]);
 
@@ -78,6 +74,5 @@ export default function Default({
 Default.propTypes = {
   children: PropTypes.arrayOf(PropTypes.element).isRequired,
   className: PropTypes.string,
-  childClassName: PropTypes.string,
   controlsClassName: PropTypes.string,
 };
