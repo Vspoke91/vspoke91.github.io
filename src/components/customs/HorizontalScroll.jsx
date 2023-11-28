@@ -49,39 +49,36 @@ export default function Default({ children, className, controlsClassName }) {
   useEffect(() => {
     const targetChild = holderRef.current.children[target];
     if (targetChild) {
-      targetChild.style.backgroundColor = "lightblue";
       targetChild.style.transform = "scale(1)";
     }
   }, [target]);
 
   useEffect(() => {
-    if (!target) {
-      const childrenArray = [];
-      if (children && children.length) {
-        if (children.length > 1) {
-          children.map((element, index) =>
-            childrenArray.push(
-              <li
-                key={index}
-                data-index={index}
-                className="grw-0 shrink-0 scale-90"
-                onClick={(e) => targetClickHandler(e)}
-              >
-                {element}
-              </li>
-            )
-          );
-        } else {
+    const childrenArray = [];
+
+    if (children && children.length) {
+      if (children.length > 1) {
+        children.map((element, index) =>
           childrenArray.push(
-            <li className="grw-0 shrink-0 scale-90" key={"zero"}>
-              {children}
+            <li
+              key={index}
+              data-index={index}
+              className="grw-0 shrink-0 scale-90 transition-all"
+              onClick={(e) => targetClickHandler(e)}
+            >
+              {element}
             </li>
-          );
-        }
-        setChildrenRender(childrenArray);
-        setTarget(0);
-        console.log(childrenRender);
+          )
+        );
+      } else {
+        childrenArray.push(
+          <li className="grw-0 shrink-0 scale-90" key={"zero"}>
+            {children}
+          </li>
+        );
       }
+      setChildrenRender(childrenArray);
+      if (!target) setTarget(0);
     }
 
     function targetClickHandler(e) {
@@ -96,7 +93,7 @@ export default function Default({ children, className, controlsClassName }) {
   }, [target, children]);
 
   return (
-    <div className="relative bg-slate-200">
+    <div className="relative ">
       <div className="absolute w-full flex justify-between px-2 h-full pointer-events-none">
         <button className="pointer-events-auto h-fit my-auto">
           <FontAwesomeIcon icon={faCaretLeft} className={controlsClassName} />
