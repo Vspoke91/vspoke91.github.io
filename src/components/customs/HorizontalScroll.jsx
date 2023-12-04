@@ -50,43 +50,79 @@ export default function Default({ children, className, controlsClassName }) {
 
   //scroll functions
   const [isDragging, setIsDragging] = useState(false);
-  const [prevPos, setPrevPos] = useState({ x: 0, y: 0 });
+  const [prevXPos, setPrevXPos] = useState(0);
 
   const dragMouseUpHandler = () => {
     setIsDragging(false);
   };
   const dragMouseMoveHandler = (e) => {
     if (!isDragging) return;
-    holderRef.current.scrollLeft += prevPos.x - e.clientX;
-    holderRef.current.scrollTop += prevPos.y - e.clientY;
-    setPrevPos({
-      x: e.clientX,
-      y: e.clientY,
-    });
+    holderRef.current.scrollLeft += prevXPos - e.clientX;
+    setPrevXPos(e.clientX);
   };
   const dragMouseDownHandler = (e) => {
     setIsDragging(true);
-    setPrevPos({
-      x: e.clientX,
-      y: e.clientY,
-    });
+    setPrevXPos(e.clientX);
   };
 
+  useLayoutEffect(() => {
+    window.addEventListener("resize", () => {
+      if (holderRef.current.scrollWidth > holderRef.current.clientWidth) {
+        setHideControls(false);
+      } else {
+        setHideControls(true);
+      }
+    });
+  }, []);
+
+  function controlClickHandler(direction) {
+    const scrollAmount = 180;
+    if (direction === "left")
+      holderRef.current.scrollTo({
+        left:
+          Math.round(holderRef.current.scrollLeft / scrollAmount) *
+            scrollAmount -
+          scrollAmount,
+        behavior: "smooth",
+      });
+    else
+      holderRef.current.scrollTo({
+        left:
+          Math.round(holderRef.current.scrollLeft / scrollAmount) *
+            scrollAmount +
+          scrollAmount,
+        behavior: "smooth",
+      });
+  }
+
   return (
-    <div className="grid grid-cols-[auto_1fr_auto] grid-rows-1">
-      <button className="h-full bg-black my-auto">
+    <div className="grid grid-cols-[auto_1fr_auto] grid-rows-1 bg-black">
+      <button
+        className="h-full bg-black p-1"
+        hidden={hideControls}
+        onClick={() => {
+          controlClickHandler("left");
+        }}
+      >
         <FontAwesomeIcon icon={faCaretLeft} className={controlsClassName} />
       </button>
       <ul
-        className={`${className} scroll-m-0 no-scrollbar`}
+        className={`${className} scroll-m-0 no-scrollbar select-none`}
         ref={holderRef}
         onMouseDown={(e) => dragMouseDownHandler(e)}
         onMouseMove={(e) => dragMouseMoveHandler(e)}
         onMouseUp={(e) => dragMouseUpHandler(e)}
+        onMouseLeave={(e) => dragMouseUpHandler(e)}
       >
         {childrenRender}
       </ul>
-      <button className="h-full bg-black">
+      <button
+        className="h-full bg-black p-1"
+        hidden={hideControls}
+        onClick={() => {
+          controlClickHandler("right");
+        }}
+      >
         <FontAwesomeIcon icon={faCaretRight} className={controlsClassName} />
       </button>
     </div>
