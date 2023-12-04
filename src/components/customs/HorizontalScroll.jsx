@@ -8,21 +8,13 @@ import {
 
 // React Imports
 import PropTypes from "prop-types";
-import { useEffect, useState, useRef, useMemo } from "react";
+import { useEffect, useState, useRef, useLayoutEffect } from "react";
 
 export default function Default({ children, className, controlsClassName }) {
   //React Hooks
-  const [target, setTarget] = useState(null);
   const [childrenRender, setChildrenRender] = useState(null);
   const holderRef = useRef(null);
-  //Style Variables
-  const targetStyle = useMemo(
-    () => ({
-      active: "scale-100 cursor-pointer group",
-      default: "scale-90",
-    }),
-    []
-  );
+  const [hideControls, setHideControls] = useState(false);
 
   useEffect(() => {
     const childrenArray = [];
@@ -33,16 +25,14 @@ export default function Default({ children, className, controlsClassName }) {
           childrenArray.push(
             <li
               key={index}
-              data-index={index}
-              className={`grw-0 shrink-0 transition-all select-none ${targetStyle.default}`}
-              onMouseEnter={(e) => targetClickHandler(e.target, target)}
+              className="shrink-0 transition-all grid grid-cols-1 grid-rows-1 items-center justify-items-center group
+              scale-90 hover:scale-100 hover:cursor-pointer"
             >
               {element}
-              <div className="absolute top-0 left-0 h-full w-full group-hover:bg-[#0003] pointer-events-none" />
+              <div className="group-hover:bg-[#0003] row-[1] col-[1] h-full w-full" />
               <FontAwesomeIcon
                 icon={faEye}
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-5xl 
-                group-hover:block hidden transition-all pointer-events-none"
+                className="text-5xl group-hover:block row-[1] col-[1] hidden"
               />
             </li>
           )
@@ -55,23 +45,8 @@ export default function Default({ children, className, controlsClassName }) {
         );
       }
       setChildrenRender(childrenArray);
-      if (!target) setTarget(0);
     }
-    function targetClickHandler(clickedTarget, currentTargetIndex) {
-      const currentTarget = holderRef.current.children[currentTargetIndex];
-
-      //Check if the clicked target is the same as the current target
-      //and if current target exists
-      if (currentTarget && currentTargetIndex !== clickedTarget.dataset.index) {
-        currentTarget.classList.remove(...targetStyle.active.split(" "));
-        currentTarget.classList.add(...targetStyle.default.split(" "));
-      }
-
-      clickedTarget.classList.remove(...targetStyle.default.split(" "));
-      clickedTarget.classList.add(...targetStyle.active.split(" "));
-      setTarget(clickedTarget.dataset.index);
-    }
-  }, [target, children, targetStyle]);
+  }, [children]);
 
   //scroll functions
   const [isDragging, setIsDragging] = useState(false);
