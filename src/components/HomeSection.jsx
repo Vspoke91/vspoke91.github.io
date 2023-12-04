@@ -278,7 +278,7 @@ function Knowledge_display({ currentLanguage, hidden }) {
       <div>
         <h4>Project</h4>
         <HorizontalScroll
-          className="overflow-x-auto flex"
+          className="overflow-x-auto flex bg-black py-2"
           controlsClassName="text-5xl"
         >
           {KnowledgeDatabase[currentLanguage]?.showcase.map(
