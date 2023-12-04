@@ -285,7 +285,7 @@ function Knowledge_display({ currentLanguage, hidden }) {
             (project, index) => (
               <a
                 key={currentLanguage + project.name + index}
-                className="pointer-events-none"
+                className="pointer-events-none col-[1] row-[1]"
               >
                 <h5 className="text-center font-bold">{project.name}</h5>
                 <div className="pointer-events-none">
