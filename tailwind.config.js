@@ -8,7 +8,10 @@ export default {
       mono: ["monospace", "sans-serif"],
       libre: ["Libre Franklin", "sans-serif"],
     },
-    extend: {},
+    extend: {
+      height: { inherit: "inherit" },
+      width: { inherit: "inherit" },
+    },
   },
   plugins: [],
 };
