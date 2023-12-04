@@ -8,20 +8,21 @@ import {
 
 // React Imports
 import PropTypes from "prop-types";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useMemo } from "react";
 
 export default function Default({ children, className, controlsClassName }) {
   //React Hooks
   const [target, setTarget] = useState(null);
   const [childrenRender, setChildrenRender] = useState(null);
   const holderRef = useRef(null);
-
-  useEffect(() => {
-    const targetChild = holderRef.current.children[target];
-    if (targetChild) {
-      targetChild.style.transform = "scale(1)";
-    }
-  }, [target]);
+  //Style Variables
+  const targetStyle = useMemo(
+    () => ({
+      active: "scale-100 cursor-pointer group",
+      default: "scale-90",
+    }),
+    []
+  );
 
   useEffect(() => {
     const childrenArray = [];
@@ -33,11 +34,16 @@ export default function Default({ children, className, controlsClassName }) {
             <li
               key={index}
               data-index={index}
-              className="grw-0 shrink-0 scale-90 transition-all cursor-pointe select-none"
-              onClick={(e) => targetClickHandler(e)}
+              className={`grw-0 shrink-0 transition-all select-none ${targetStyle.default}`}
+              onMouseEnter={(e) => targetClickHandler(e.target, target)}
             >
               {element}
-              <FontAwesomeIcon icon={faEye} className="hidden" />
+              <div className="absolute top-0 left-0 h-full w-full group-hover:bg-[#0003] pointer-events-none" />
+              <FontAwesomeIcon
+                icon={faEye}
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-5xl 
+                group-hover:block hidden transition-all pointer-events-none"
+              />
             </li>
           )
         );
@@ -51,25 +57,27 @@ export default function Default({ children, className, controlsClassName }) {
       setChildrenRender(childrenArray);
       if (!target) setTarget(0);
     }
+    function targetClickHandler(clickedTarget, currentTargetIndex) {
+      const currentTarget = holderRef.current.children[currentTargetIndex];
 
-    function targetClickHandler(e) {
-      const targetChild = holderRef.current.children[target];
-      const newTargetIndex = parseInt(e.target.dataset.index);
-
-      if (targetChild && target !== newTargetIndex) {
-        targetChild.removeAttribute("style");
+      //Check if the clicked target is the same as the current target
+      //and if current target exists
+      if (currentTarget && currentTargetIndex !== clickedTarget.dataset.index) {
+        currentTarget.classList.remove(...targetStyle.active.split(" "));
+        currentTarget.classList.add(...targetStyle.default.split(" "));
       }
-      setTarget(newTargetIndex);
+
+      clickedTarget.classList.remove(...targetStyle.default.split(" "));
+      clickedTarget.classList.add(...targetStyle.active.split(" "));
+      setTarget(clickedTarget.dataset.index);
     }
-  }, [target, children]);
+  }, [target, children, targetStyle]);
 
   //scroll functions
-
   const [isDragging, setIsDragging] = useState(false);
   const [prevPos, setPrevPos] = useState({ x: 0, y: 0 });
 
-  const dragMouseUpHandler = (e) => {
-    holderRef.current.classList.remove("cursor-grab");
+  const dragMouseUpHandler = () => {
     setIsDragging(false);
   };
   const dragMouseMoveHandler = (e) => {
@@ -82,7 +90,6 @@ export default function Default({ children, className, controlsClassName }) {
     });
   };
   const dragMouseDownHandler = (e) => {
-    holderRef.current.classList.add("cursor-grab");
     setIsDragging(true);
     setPrevPos({
       x: e.clientX,
@@ -91,17 +98,12 @@ export default function Default({ children, className, controlsClassName }) {
   };
 
   return (
-    <div className="relative">
-      <div className="absolute w-full flex justify-between px-2 h-full pointer-events-none">
-        <button className="pointer-events-auto h-fit my-auto">
-          <FontAwesomeIcon icon={faCaretLeft} className={controlsClassName} />
-        </button>
-        <button className="pointer-events-auto  h-fit my-auto">
-          <FontAwesomeIcon icon={faCaretRight} className={controlsClassName} />
-        </button>
-      </div>
+    <div className="grid grid-cols-[auto_1fr_auto] grid-rows-1">
+      <button className="h-full bg-black my-auto">
+        <FontAwesomeIcon icon={faCaretLeft} className={controlsClassName} />
+      </button>
       <ul
-        className={className}
+        className={`${className} scroll-m-0 no-scrollbar`}
         ref={holderRef}
         onMouseDown={(e) => dragMouseDownHandler(e)}
         onMouseMove={(e) => dragMouseMoveHandler(e)}
@@ -109,6 +111,9 @@ export default function Default({ children, className, controlsClassName }) {
       >
         {childrenRender}
       </ul>
+      <button className="h-full bg-black">
+        <FontAwesomeIcon icon={faCaretRight} className={controlsClassName} />
+      </button>
     </div>
   );
 }
