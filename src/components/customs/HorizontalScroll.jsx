@@ -22,20 +22,7 @@ export default function Default({ children, className, controlsClassName }) {
     if (children && children.length) {
       if (children.length > 1) {
         children.map((element, index) =>
-          childrenArray.push(
-            <li
-              key={index}
-              className="shrink-0 transition-all grid grid-cols-1 grid-rows-1 items-center justify-items-center group
-              scale-90 hover:scale-100 hover:cursor-pointer"
-            >
-              {element}
-              <div className="group-hover:bg-[#0003] row-[1] col-[1] h-full w-full" />
-              <FontAwesomeIcon
-                icon={faEye}
-                className="text-5xl group-hover:block row-[1] col-[1] hidden"
-              />
-            </li>
-          )
+          childrenArray.push(itemElement(index, element))
         );
       } else {
         childrenArray.push(
@@ -45,6 +32,51 @@ export default function Default({ children, className, controlsClassName }) {
         );
       }
       setChildrenRender(childrenArray);
+    }
+
+    function itemElement(index, content) {
+      let isClicking = false;
+      let movedPos = 0;
+      let startPos = 0;
+
+      const onClickHandler = () => {
+        console.log("clicked");
+      };
+      const clickingLeaveHandler = () => {
+        isClicking = false;
+      };
+      const clickingUpHandler = () => {
+        if (movedPos < 20) onClickHandler();
+        isClicking = false;
+      };
+      const clickingMoveHandler = (e) => {
+        if (!isClicking) return;
+        movedPos += Math.abs(startPos - e.clientX);
+      };
+      const clickingDownHandler = (e) => {
+        isClicking = true;
+        movedPos = 0;
+        startPos = e.clientX;
+      };
+
+      return (
+        <li
+          key={index}
+          className="shrink-0 transition-all grid grid-cols-1 grid-rows-1 items-center justify-items-center group
+        scale-90 hover:scale-100 hover:cursor-pointer"
+          onMouseDown={(e) => clickingDownHandler(e)}
+          onMouseMove={(e) => clickingMoveHandler(e)}
+          onMouseUp={(e) => clickingUpHandler(e)}
+          onMouseLeave={(e) => clickingLeaveHandler(e)}
+        >
+          {content}
+          <div className="group-hover:bg-[#0003] row-[1] col-[1] h-full w-full" />
+          <FontAwesomeIcon
+            icon={faEye}
+            className="text-5xl group-hover:block row-[1] col-[1] hidden"
+          />
+        </li>
+      );
     }
   }, [children]);
 
