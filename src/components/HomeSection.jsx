@@ -304,6 +304,6 @@ function Knowledge_display({ currentLanguage, hidden }) {
   );
 }
 Knowledge_display.propTypes = {
-  currentLanguage: PropTypes.string.isRequired,
+  currentLanguage: PropTypes.string,
   hidden: PropTypes.bool.isRequired,
 };

@@ -14,7 +14,7 @@ export default function Default({ children, className, controlsClassName }) {
   //React Hooks
   const [childrenRender, setChildrenRender] = useState(null);
   const holderRef = useRef(null);
-  const [hideControls, setHideControls] = useState(false);
+  const controlsRef = useRef({ right: null, left: null });
 
   useEffect(() => {
     const childrenArray = [];
@@ -97,18 +97,23 @@ export default function Default({ children, className, controlsClassName }) {
     setPrevXPos(e.clientX);
   };
 
-  useLayoutEffect(() => {
-    window.addEventListener("resize", () => {
+  useEffect(() => {
+    const resizeObserver = new ResizeObserver(() => {
       if (holderRef.current.scrollWidth > holderRef.current.clientWidth) {
-        setHideControls(false);
+        controlsRef.current.right.classList.remove("hidden");
+        controlsRef.current.left.classList.remove("hidden");
       } else {
-        setHideControls(true);
+        controlsRef.current.left.classList.add("hidden");
+        controlsRef.current.right.classList.add("hidden");
       }
     });
+    resizeObserver.observe(holderRef.current);
+    return () => {
+      resizeObserver.disconnect();
+    };
   }, []);
-
   function controlClickHandler(direction) {
-    const scrollAmount = 180;
+    const scrollAmount = 200;
     if (direction === "left")
       holderRef.current.scrollTo({
         left:
@@ -130,8 +135,8 @@ export default function Default({ children, className, controlsClassName }) {
   return (
     <div className="grid grid-cols-[auto_1fr_auto] grid-rows-1 bg-black">
       <button
-        className="h-full bg-black p-1"
-        hidden={hideControls}
+        className="h-full bg-black p-1 hidden"
+        ref={(ref) => (controlsRef.current.left = ref)}
         onClick={() => {
           controlClickHandler("left");
         }}
@@ -149,8 +154,8 @@ export default function Default({ children, className, controlsClassName }) {
         {childrenRender}
       </ul>
       <button
-        className="h-full bg-black p-1"
-        hidden={hideControls}
+        className="h-full bg-black p-1 hidden"
+        ref={(ref) => (controlsRef.current.right = ref)}
         onClick={() => {
           controlClickHandler("right");
         }}
