@@ -280,6 +280,7 @@ function Knowledge_display({ currentLanguage, hidden }) {
         <HorizontalScroll
           className="overflow-x-auto flex bg-black py-2"
           controlsClassName="text-5xl"
+          reRenderOnChange={currentLanguage}
         >
           {KnowledgeDatabase[currentLanguage]?.showcase.map(
             (project, index) => (

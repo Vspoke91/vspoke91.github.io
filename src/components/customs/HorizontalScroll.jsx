@@ -8,9 +8,15 @@ import {
 
 // React Imports
 import PropTypes from "prop-types";
-import { useEffect, useState, useRef, useLayoutEffect } from "react";
+import { useEffect, useState, useRef } from "react";
 
-export default function Default({ children, className, controlsClassName }) {
+export default function Default({
+  children,
+  className,
+  controlsClassName,
+  onClick,
+  reRenderOnChange,
+}) {
   //React Hooks
   const [childrenRender, setChildrenRender] = useState(null);
   const holderRef = useRef(null);
@@ -20,15 +26,9 @@ export default function Default({ children, className, controlsClassName }) {
     const childrenArray = [];
 
     if (children && children.length) {
-      if (children.length > 1) {
+      if (children.length) {
         children.map((element, index) =>
           childrenArray.push(itemElement(index, element))
-        );
-      } else {
-        childrenArray.push(
-          <li className="grw-0 shrink-0 scale-90" key={"zero"}>
-            {children}
-          </li>
         );
       }
       setChildrenRender(childrenArray);
@@ -39,14 +39,11 @@ export default function Default({ children, className, controlsClassName }) {
       let movedPos = 0;
       let startPos = 0;
 
-      const onClickHandler = () => {
-        console.log("clicked");
-      };
       const clickingLeaveHandler = () => {
         isClicking = false;
       };
       const clickingUpHandler = () => {
-        if (movedPos < 20) onClickHandler();
+        if (movedPos < 20) onClick();
         isClicking = false;
       };
       const clickingMoveHandler = (e) => {
@@ -78,11 +75,12 @@ export default function Default({ children, className, controlsClassName }) {
         </li>
       );
     }
-  }, [children]);
+  }, [children, onClick]);
 
   //scroll functions
   const [isDragging, setIsDragging] = useState(false);
   const [prevXPos, setPrevXPos] = useState(0);
+  const hitEdgeStyle = "[&>*]:text-neutral-600";
 
   const dragMouseUpHandler = () => {
     setIsDragging(false);
@@ -97,21 +95,61 @@ export default function Default({ children, className, controlsClassName }) {
     setPrevXPos(e.clientX);
   };
 
+  const scrollHandler = (e) => {
+    const scroll = e.target;
+    const scrollAmount = scroll.scrollLeft;
+
+    if (scrollAmount <= 0) {
+      controlsRef.current.left.classList.add(hitEdgeStyle);
+    } else {
+      controlsRef.current.left.classList.remove(hitEdgeStyle);
+    }
+    if (Math.ceil(scrollAmount) + scroll.clientWidth >= scroll.scrollWidth) {
+      controlsRef.current.right.classList.add(hitEdgeStyle);
+    } else {
+      controlsRef.current.right.classList.remove(hitEdgeStyle);
+    }
+  };
+
   useEffect(() => {
+    console.log(
+      "render",
+      holderRef.current.scrollWidth,
+      " > ",
+      holderRef.current.clientWidth
+    );
     const resizeObserver = new ResizeObserver(() => {
       if (holderRef.current.scrollWidth > holderRef.current.clientWidth) {
         controlsRef.current.right.classList.remove("hidden");
         controlsRef.current.left.classList.remove("hidden");
+        if (holderRef.current.scrollLeft <= 0)
+          controlsRef.current.left.classList.add(hitEdgeStyle);
+
+        console.log(
+          "shown",
+          holderRef.current.scrollWidth,
+          " > ",
+          holderRef.current.clientWidth
+        );
       } else {
+        controlsRef.current.right.classList.remove(hitEdgeStyle);
+        controlsRef.current.left.classList.remove(hitEdgeStyle);
         controlsRef.current.left.classList.add("hidden");
         controlsRef.current.right.classList.add("hidden");
+        console.log(
+          "hidden",
+          holderRef.current.scrollWidth,
+          " > ",
+          holderRef.current.clientWidth
+        );
       }
+      console.log("resize");
     });
     resizeObserver.observe(holderRef.current);
     return () => {
       resizeObserver.disconnect();
     };
-  }, []);
+  }, [reRenderOnChange]);
   function controlClickHandler(direction) {
     const scrollAmount = 200;
     if (direction === "left")
@@ -135,7 +173,7 @@ export default function Default({ children, className, controlsClassName }) {
   return (
     <div className="grid grid-cols-[auto_1fr_auto] grid-rows-1 bg-black">
       <button
-        className="h-full bg-black p-1 hidden"
+        className="h-full bg-black p-1 hidden transition-all"
         ref={(ref) => (controlsRef.current.left = ref)}
         onClick={() => {
           controlClickHandler("left");
@@ -150,11 +188,12 @@ export default function Default({ children, className, controlsClassName }) {
         onMouseMove={(e) => dragMouseMoveHandler(e)}
         onMouseUp={(e) => dragMouseUpHandler(e)}
         onMouseLeave={(e) => dragMouseUpHandler(e)}
+        onScroll={(e) => scrollHandler(e)}
       >
         {childrenRender}
       </ul>
       <button
-        className="h-full bg-black p-1 hidden"
+        className="h-full bg-black p-1 hidden transition-all"
         ref={(ref) => (controlsRef.current.right = ref)}
         onClick={() => {
           controlClickHandler("right");
@@ -169,4 +208,5 @@ Default.propTypes = {
   children: PropTypes.arrayOf(PropTypes.element),
   className: PropTypes.string,
   controlsClassName: PropTypes.string,
+  onClick: PropTypes.func,
 };
