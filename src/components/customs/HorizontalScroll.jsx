@@ -1,8 +1,8 @@
 // Icons Imports
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faCaretRight,
-  faCaretLeft,
+  faChevronRight,
+  faChevronLeft,
   faEye,
 } from "@fortawesome/free-solid-svg-icons";
 
@@ -137,7 +137,7 @@ Default.propTypes = {
 
 function Controls({ children, scrollHolder, myRef }) {
   const controlsStyle =
-    "text-5xl px-2 col-[1] row-[1] z-[1] self-center bg-[#00000050] h-full hover:bg-[#00000090] transition-all";
+    " group/control text-4xl px-2 col-[1] row-[1] z-[1] self-center bg-[#00000050] h-full hover:bg-[#00000090] transition-all";
 
   return (
     <>
@@ -148,7 +148,10 @@ function Controls({ children, scrollHolder, myRef }) {
           scrollHolder.current.scrollBy(-1, 0);
         }}
       >
-        <FontAwesomeIcon icon={faCaretLeft} />
+        <FontAwesomeIcon
+          icon={faChevronLeft}
+          className="transition-all group-hover/control:scale-125"
+        />
       </button>
       {children}
       <button
@@ -158,7 +161,10 @@ function Controls({ children, scrollHolder, myRef }) {
           scrollHolder.current.scrollBy(1, 0);
         }}
       >
-        <FontAwesomeIcon icon={faCaretRight} />
+        <FontAwesomeIcon
+          icon={faChevronRight}
+          className="transition-all group-hover/control:scale-125"
+        />
       </button>
     </>
   );
