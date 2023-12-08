@@ -42,7 +42,7 @@ export default function Default() {
   return (
     <div
       id="home"
-      className="flex justify-center min-h-[calc(100vh-60px)] items-center max-w-[1500px] mx-auto"
+      className="mx-auto flex min-h-[calc(100vh-60px)] max-w-[1500px] items-center justify-center"
     >
       <Introduction ref={introductionRef} />
       <SVG ref={SVGRef} />
@@ -61,19 +61,19 @@ const Introduction = forwardRef((props, ref) => {
   }));
 
   return (
-    <div className="flex-[2] ml-[5vh] mr-[1vh] " hidden={hidden}>
+    <div className="ml-[5vh] mr-[1vh] flex-[2] " hidden={hidden}>
       <h2 className="cursor-default">
-        <span className="block text-3xl font-libre font-light">
+        <span className="block font-libre text-3xl font-light">
           Hello, My name is
         </span>
-        <strong className="text-4xl font-libre">Victor Romero</strong>
+        <strong className="font-libre text-4xl">Victor Romero</strong>
       </h2>
       <p className="mt-3 w-[90%] cursor-default">
         I&apos;m a software developer, I love coding and I&apos;m always looking
         forward to learn new things.
       </p>
       {/* -media- */}
-      <ul className="flex gap-4 w-full mt-3">
+      <ul className="mt-3 flex w-full gap-4">
         <li>
           <a href="">
             <FontAwesomeIcon icon={faLinkedin} className="h-[35px] w-auto" />
@@ -91,10 +91,10 @@ const Introduction = forwardRef((props, ref) => {
         </li>
       </ul>
       {/* -achievements- */}
-      <h3 className="text-xl font-mono font-black mx-auto w-fit mt-8 cursor-default">
+      <h3 className="mx-auto mt-8 w-fit cursor-default font-mono text-xl font-black">
         Achievements
       </h3>
-      <ul className="flex justify-center gap-4 mt-3">
+      <ul className="mt-3 flex justify-center gap-4">
         <li>
           <a href="">
             <FontAwesomeIcon icon={faWindows} className="h-[35px]" />
@@ -121,7 +121,7 @@ const SVG = forwardRef((props, ref) => {
 
   return (
     <div
-      className="flex-1 pointer-events-none select-none"
+      className="pointer-events-none flex-1 select-none"
       style={{ flexGrow: reduce ? 0.5 : "" }}
     >
       <img className="h-[auto] w-[30vw]" src={spaceman} alt="svg of spaceman" />
@@ -149,103 +149,103 @@ function Knowledge({ setExpandHub }) {
 
   return (
     <div
-      className="relative z-0 flex-1 flex group/hub"
+      className="group/hub relative z-0 flex flex-1"
       aria-expanded={expanded}
     >
-      <h2 className="text-2xl absolute -top-[10vh]">
-        <span className="font-bold font-libre cursor-default">
+      <h2 className="absolute -top-[10vh] text-2xl">
+        <span className="cursor-default font-libre font-bold">
           Knowledge Hub
         </span>
         <FontAwesomeIcon icon={faGraduationCap} className="ml-1" />
       </h2>
-      <ul className="flex flex-col gap-[3vw] w-fit">
-        <li className="flex text-5xl items-center -translate-x-6 group w-fit">
+      <ul className="flex w-fit flex-col gap-[3vw]">
+        <li className="group flex w-fit -translate-x-6 items-center text-5xl">
           <button
-            className="peer group flex items-center"
+            className="group peer flex items-center"
             onClick={() => {
               switchExpand("git");
             }}
           >
             <FontAwesomeIcon icon={faGitAlt} />
-            <span className="text-xl ml-1 hidden group-hover:block group-focus-visible:block group-aria-expanded/hub:group-hover:hidden group-aria-expanded/hub:group-focus-visible:hidden">
+            <span className="ml-1 hidden text-xl group-hover:block group-focus-visible:block group-aria-expanded/hub:group-hover:hidden group-aria-expanded/hub:group-focus-visible:hidden">
               Git
             </span>
           </button>
           <FontAwesomeIcon
             icon={faAngleRight}
-            className="text-4xl absolute -left-7 hidden group-hover:block peer-focus-visible:block"
+            className="absolute -left-7 hidden text-4xl group-hover:block peer-focus-visible:block"
           />
         </li>
-        <li className="flex text-3xl items-center group w-fit">
+        <li className="group flex w-fit items-center text-3xl">
           <button
-            className="peer group flex items-center"
+            className="group peer flex items-center"
             onClick={() => {
               switchExpand("web");
             }}
           >
-            <div className="flex gap-1 items-center">
+            <div className="flex items-center gap-1">
               <FontAwesomeIcon icon={faHtml5} />
               <FontAwesomeIcon icon={faSquareJs} />
               <FontAwesomeIcon icon={faCss3Alt} />
-              <span className="text-sm ml-1 hidden group-hover:block group-focus-visible:block  group-aria-expanded/hub:group-hover:hidden group-aria-expanded/hub:group-focus-visible:hidden">
+              <span className="ml-1 hidden text-sm group-hover:block group-focus-visible:block  group-aria-expanded/hub:group-hover:hidden group-aria-expanded/hub:group-focus-visible:hidden">
                 HTML / JavaScript / CSS
               </span>
             </div>
           </button>
           <FontAwesomeIcon
             icon={faAngleRight}
-            className="text-4xl absolute -left-7 hidden group-hover:block peer-focus-visible:block"
+            className="absolute -left-7 hidden text-4xl group-hover:block peer-focus-visible:block"
           />
         </li>
-        <li className="flex text-5xl items-center translate-x-6 group w-fit">
+        <li className="group flex w-fit translate-x-6 items-center text-5xl">
           <button
-            className="peer group flex items-center"
+            className="group peer flex items-center"
             onClick={() => {
               switchExpand("python");
             }}
           >
             <FontAwesomeIcon icon={faPython} />
-            <span className="text-xl ml-1 h-full hidden group-hover:block group-focus-visible:block  group-aria-expanded/hub:group-hover:hidden group-aria-expanded/hub:group-focus-visible:hidden">
+            <span className="ml-1 hidden h-full text-xl group-hover:block group-focus-visible:block  group-aria-expanded/hub:group-hover:hidden group-aria-expanded/hub:group-focus-visible:hidden">
               Python
             </span>
           </button>
           <FontAwesomeIcon
             icon={faAngleRight}
-            className="text-4xl absolute -left-7 hidden group-hover:block peer-focus-visible:block"
+            className="absolute -left-7 hidden text-4xl group-hover:block peer-focus-visible:block"
           />
         </li>
-        <li className="flex text-5xl items-center group w-fit">
+        <li className="group flex w-fit items-center text-5xl">
           <button
-            className="peer group flex items-center"
+            className="group peer flex items-center"
             onClick={() => {
               switchExpand("java");
             }}
           >
             <FontAwesomeIcon icon={faJava} />
-            <span className="text-xl ml-1 hidden group-hover:block group-focus-visible:block  group-aria-expanded/hub:group-hover:hidden group-aria-expanded/hub:group-focus-visible:hidden">
+            <span className="ml-1 hidden text-xl group-hover:block group-focus-visible:block  group-aria-expanded/hub:group-hover:hidden group-aria-expanded/hub:group-focus-visible:hidden">
               Java
             </span>
           </button>
           <FontAwesomeIcon
             icon={faAngleRight}
-            className="text-4xl absolute -left-7 hidden group-hover:block peer-focus-visible:block"
+            className="absolute -left-7 hidden text-4xl group-hover:block peer-focus-visible:block"
           />
         </li>
-        <li className="flex items-center -translate-x-6 group w-fit">
+        <li className="group flex w-fit -translate-x-6 items-center">
           <button
-            className="peer group flex items-center"
+            className="group peer flex items-center"
             onClick={() => {
               switchExpand("csharp");
             }}
           >
             <img className="h-[45px]" src={csharp} alt="csharp logo" />
-            <span className="text-xl ml-1 hidden group-hover:block group-focus-visible:block  group-aria-expanded/hub:group-hover:hidden group-aria-expanded/hub:group-focus-visible:hidden">
+            <span className="ml-1 hidden text-xl group-hover:block group-focus-visible:block  group-aria-expanded/hub:group-hover:hidden group-aria-expanded/hub:group-focus-visible:hidden">
               C-Sharp
             </span>
           </button>
           <FontAwesomeIcon
             icon={faAngleRight}
-            className="text-4xl absolute -left-7 hidden group-hover:block peer-focus-visible:block"
+            className="absolute -left-7 hidden text-4xl group-hover:block peer-focus-visible:block"
           />
         </li>
       </ul>
@@ -277,27 +277,14 @@ function Knowledge_display({ currentLanguage, hidden }) {
       </p>
       <div>
         <h4>Project</h4>
-        <HorizontalScroll
-          className="overflow-x-auto flex bg-black py-2"
-          controlsClassName="text-5xl"
-          reRenderOnChange={currentLanguage}
-        >
+        <HorizontalScroll>
           {KnowledgeDatabase[currentLanguage]?.showcase.map(
             (project, index) => (
-              <a
-                key={currentLanguage + project.name + index}
-                className="pointer-events-none col-[1] row-[1]"
-              >
+              <a key={currentLanguage + project.name + index}>
                 <h5 className="text-center font-bold">{project.name}</h5>
-                <div className="pointer-events-none">
-                  <img
-                    className="w-[200px] pointer-events-none"
-                    src={project.image}
-                    alt={`Logo for ${project.name}`}
-                  />
-                </div>
+                <img src={project.image} alt={`${project.name} project logo`} />
               </a>
-            )
+            ),
           )}
         </HorizontalScroll>
       </div>
