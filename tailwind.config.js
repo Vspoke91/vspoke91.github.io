@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+import plugin from "tailwindcss/plugin";
+
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
@@ -13,5 +15,21 @@ export default {
       width: { inherit: "inherit" },
     },
   },
-  plugins: [],
+  plugins: [scrollHide()],
 };
+
+function scrollHide() {
+  return plugin(({ addUtilities }) => {
+    addUtilities({
+      /* Hide scrollbar for Chrome, Safari, Edge and Opera */
+      ".scroll-no-style::-webkit-scrollbar": {
+        display: "none",
+      },
+      /* Hide scrollbar for Firefox and IE */
+      ".scroll-no-style": {
+        "-ms-overflow-style": "none", // IE
+        "scrollbar-width": "none", // Firefox
+      },
+    });
+  });
+}
