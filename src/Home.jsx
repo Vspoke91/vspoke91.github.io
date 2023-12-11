@@ -1,16 +1,16 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHouse, faCode, faUser } from "@fortawesome/free-solid-svg-icons";
-import { default as HomeSection } from "./components/HomeSection";
+import { default as HomeSection } from "./components/sections/home/HomeSection";
 
 function Home() {
   return (
     <>
-      <header className="bg-[rgb(58,58,58)] flex h-[60px] fixed inset-x-0 top-0 z-50">
-        <h1 className="font-Agbalumo text-3xl ml-[2vw] cursor-default my-auto">
+      <header className="fixed inset-x-0 top-0 z-50 flex h-[60px] bg-[rgb(58,58,58)]">
+        <h1 className="my-auto ml-[2vw] cursor-default font-Agbalumo text-3xl">
           Victor R.O.
         </h1>
-        <div className="border-[2px] rounded-lg h-[75%] mx-4 my-auto" />
-        <nav className="flex gap-4 h-full">
+        <div className="mx-4 my-auto h-[75%] rounded-lg border-[2px]" />
+        <nav className="flex h-full gap-4">
           <ul className="contents">
             <li className="flex h-full items-center">
               <a href="#home">
@@ -33,11 +33,11 @@ function Home() {
           </ul>
         </nav>
         <div className="grow" />
-        <button className="bg-green-700 rounded-lg h-fit my-auto mr-[10vh] font-bold py-2 px-3 text-lg font-mono">
+        <button className="my-auto mr-[10vh] h-fit rounded-lg bg-green-700 px-3 py-2 font-mono text-lg font-bold">
           Contact Me
         </button>
       </header>
-      <main className="mt-[60px]">
+      <main className=" auto-rows-screen mt-[60px] grid ">
         {/* [Home] */}
         <HomeSection />
         {/* [Media] */}

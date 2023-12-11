@@ -13,6 +13,9 @@ export default {
     extend: {
       height: { inherit: "inherit" },
       width: { inherit: "inherit" },
+      gridAutoRows: {
+        screen: "100vh",
+      },
     },
   },
   plugins: [scrollHide()],

@@ -17,14 +17,12 @@ import {
   faJava,
   faGitAlt,
 } from "@fortawesome/free-brands-svg-icons";
-import spaceman from "../assets/spaceman.svg";
-import csharp from "../assets/csharp.svg";
 
 //Components Imports
-import HorizontalScroll from "./customs/HorizontalScroll.jsx";
+import HorizontalScroll from "./HomeHorizontalScroll.jsx";
 
 //Data Imports
-import KnowledgeDatabase from "../data/KnowledgeDatabase.js";
+import KnowledgeDatabase from "../../../data/KnowledgeDatabase.js";
 
 //React Imports
 import { forwardRef, useImperativeHandle, useRef, useState } from "react";
@@ -42,37 +40,48 @@ export default function Default() {
   return (
     <div
       id="home"
-      className="mx-auto flex min-h-[calc(100vh-60px)] max-w-[1500px] items-center justify-center"
+      className="grid max-w-[1500px] grid-cols-[2fr_1fr] grid-rows-1 place-self-center self-center"
     >
       <Introduction ref={introductionRef} />
-      <SVG ref={SVGRef} />
-      <Knowledge setExpandHub={setExpandHub} />
+      <div className="flex">
+        <SVG ref={SVGRef} />
+        <Knowledge setExpandHub={setExpandHub} />
+      </div>
     </div>
   );
 }
 
-const Introduction = forwardRef((props, ref) => {
-  const [hidden, setHidden] = useState(false);
+//Introduction//
 
+const Introduction = forwardRef((props, ref) => {
+  //React Hooks
+  const holderRef = useState(false);
+
+  //Ref object
   useImperativeHandle(ref, () => ({
     setHide: (value) => {
-      setHidden(value);
+      if (value) holderRef.current.classList.add("");
+      else holderRef.current.classList.remove("hidden");
     },
   }));
 
   return (
-    <div className="ml-[5vh] mr-[1vh] flex-[2] " hidden={hidden}>
-      <h2 className="cursor-default">
-        <span className="block font-libre text-3xl font-light">
+    <div className="ml-[2vw] transition-all" ref={holderRef}>
+      {/* -Tittle- */}
+      <h2 className="block cursor-default">
+        <span className="block font-libre text-4xl font-light">
           Hello, My name is
         </span>
-        <strong className="font-libre text-4xl">Victor Romero</strong>
+        <strong className="font-libre text-5xl">Victor Romero</strong>
       </h2>
-      <p className="mt-3 w-[90%] cursor-default">
-        I&apos;m a software developer, I love coding and I&apos;m always looking
-        forward to learn new things.
+      <p className="mt-3 w-[50ch] cursor-default">
+        I am a dedicated Web and Software Developer passionate about impactful
+        software. Proficient in<strong> React.js </strong>and
+        <strong> Java</strong>, experienced in<strong> Git </strong>and
+        <strong> Github </strong>
+        for collaborative development.
       </p>
-      {/* -media- */}
+      {/* -Media- */}
       <ul className="mt-3 flex w-full gap-4">
         <li>
           <a href="">
@@ -90,7 +99,7 @@ const Introduction = forwardRef((props, ref) => {
           </a>
         </li>
       </ul>
-      {/* -achievements- */}
+      {/* -Achievements- */}
       <h3 className="mx-auto mt-8 w-fit cursor-default font-mono text-xl font-black">
         Achievements
       </h3>
@@ -111,6 +120,7 @@ const Introduction = forwardRef((props, ref) => {
 });
 Introduction.displayName = "Introduction";
 
+//Decoration SVG//
 const SVG = forwardRef((props, ref) => {
   const [reduce, setReduce] = useState(false);
   useImperativeHandle(ref, () => ({
@@ -121,15 +131,20 @@ const SVG = forwardRef((props, ref) => {
 
   return (
     <div
-      className="pointer-events-none flex-1 select-none"
+      className="pointer-events-none h-inherit flex-1 select-none"
       style={{ flexGrow: reduce ? 0.5 : "" }}
     >
-      <img className="h-[auto] w-[30vw]" src={spaceman} alt="svg of spaceman" />
+      <img
+        className="h-[auto] w-[30vw]"
+        src="/images/decor/spaceman.svg"
+        alt="svg of spaceman"
+      />
     </div>
   );
 });
 SVG.displayName = "SVG";
 
+//Knowledge Hub
 function Knowledge({ setExpandHub }) {
   const [expanded, setExpanded] = useState(false);
   const [languageSelected, setLanguageSelected] = useState(null);
@@ -149,15 +164,15 @@ function Knowledge({ setExpandHub }) {
 
   return (
     <div
-      className="group/hub relative z-0 flex flex-1"
+      className="group/hub relative z-0 flex h-inherit"
       aria-expanded={expanded}
     >
-      <h2 className="absolute -top-[10vh] text-2xl">
+      {/* <h2 className="absolute -top-[10vh] text-2xl">
         <span className="cursor-default font-libre font-bold">
           Knowledge Hub
         </span>
         <FontAwesomeIcon icon={faGraduationCap} className="ml-1" />
-      </h2>
+      </h2> */}
       <ul className="flex w-fit flex-col gap-[3vw]">
         <li className="group flex w-fit -translate-x-6 items-center text-5xl">
           <button
@@ -238,7 +253,11 @@ function Knowledge({ setExpandHub }) {
               switchExpand("csharp");
             }}
           >
-            <img className="h-[45px]" src={csharp} alt="csharp logo" />
+            <img
+              className="h-[45px]"
+              src="/images/icons/csharp.svg"
+              alt="csharp logo"
+            />
             <span className="ml-1 hidden text-xl group-hover:block group-focus-visible:block  group-aria-expanded/hub:group-hover:hidden group-aria-expanded/hub:group-focus-visible:hidden">
               C-Sharp
             </span>
@@ -262,7 +281,7 @@ Knowledge.propTypes = {
 
 function Knowledge_display({ currentLanguage, hidden }) {
   return (
-    <div className=" w-full border-2 border-red-900" hidden={hidden}>
+    <div className="border-2 border-red-900" hidden={hidden}>
       <h3>{KnowledgeDatabase[currentLanguage]?.name ?? ""}</h3>
       <p>
         <span>Education:</span>
@@ -279,12 +298,21 @@ function Knowledge_display({ currentLanguage, hidden }) {
         <h4>Project</h4>
         <HorizontalScroll>
           {KnowledgeDatabase[currentLanguage]?.showcase.map(
-            (project, index) => (
-              <a key={currentLanguage + project.name + index}>
-                <h5 className="text-center font-bold">{project.name}</h5>
-                <img src={project.image} alt={`${project.name} project logo`} />
-              </a>
-            ),
+            (project, index) => {
+              return (
+                <a
+                  key={currentLanguage + project.name + index}
+                  href="google.com"
+                >
+                  <h5 className="text-center font-bold">{project.name}</h5>
+                  <img
+                    src={project.image}
+                    alt={`"${project.name}" Logo`}
+                    className="pointer-events-none"
+                  />
+                </a>
+              );
+            },
           )}
         </HorizontalScroll>
       </div>
