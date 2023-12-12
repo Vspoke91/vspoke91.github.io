@@ -16,6 +16,9 @@ export default {
       gridAutoRows: {
         screen: "100vh",
       },
+      backgroundColor: {
+        main: "#1F1F1F",
+      },
     },
   },
   plugins: [scrollHide()],
