@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHouse, faCode, faUser } from "@fortawesome/free-solid-svg-icons";
-import { default as HomeSection } from "./components/sections/home/HomeSection";
+import HomeSection from "./components/sections/home/HomeSection";
 
 function Home() {
   return (
