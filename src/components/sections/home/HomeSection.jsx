@@ -2,6 +2,7 @@
 import Introduction from "./Introduction";
 import DecorSVG from "./DecorSVG";
 import ProjectHub from "./ProjectHub";
+import MediaBar from "./MediaBar";
 
 //React Imports
 import { useRef } from "react";
@@ -9,12 +10,15 @@ import { useRef } from "react";
 export default function Default() {
   const holder = useRef(null);
 
-  function expandHub(value) {
+  function hideIntroFunc(value) {
     const style = "!grid-cols-[0%_1fr]";
+
     if (value) {
       holder.current.classList.add(style);
+      holder.current.classList.remove("place-self-center");
     } else {
       holder.current.classList.remove(style);
+      holder.current.classList.add("place-self-center");
     }
   }
 
@@ -22,12 +26,13 @@ export default function Default() {
     <div
       id="home"
       ref={holder}
-      className="grid max-w-[1500px] grid-cols-[50%_1fr] grid-rows-1 place-self-center self-center transition-all duration-200"
+      className="grid grid-cols-[50%_1fr] grid-rows-1 place-self-center self-center transition-all duration-200 [@media(max-width:1815px)]:pl-[60px]"
     >
+      <MediaBar />
       <Introduction />
-      <div className="bg-main flex">
+      <div className="bg-main flex items-center">
         <DecorSVG />
-        <ProjectHub expandHubFunc={expandHub} />
+        <ProjectHub hideIntroFunc={hideIntroFunc} />
       </div>
     </div>
   );

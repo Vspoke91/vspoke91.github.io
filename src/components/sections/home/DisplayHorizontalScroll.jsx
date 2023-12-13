@@ -34,7 +34,7 @@ export default function Default({ children }) {
       return (
         <li
           key={index}
-          className="group/item grid w-[200px] shrink-0 snap-start grid-cols-1 grid-rows-1
+          className="group/item grid w-[250px] shrink-0 snap-start grid-cols-1 grid-rows-1
         items-center justify-items-center hover:cursor-pointer"
         >
           <div className="z-0 col-[1] row-[1] scale-90 transition-all group-hover/item:scale-100 group-hover/item:brightness-75">

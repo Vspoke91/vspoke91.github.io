@@ -37,7 +37,7 @@ function Home() {
           Contact Me
         </button>
       </header>
-      <main className=" auto-rows-screen mt-[60px] grid ">
+      <main className=" auto-rows-screen mx-auto mt-[60px] grid max-w-[1700px]">
         {/* [Home] */}
         <HomeSection />
         {/* [Media] */}
