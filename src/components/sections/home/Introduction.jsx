@@ -1,11 +1,6 @@
-// Icons Imports
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
-import { faGithub, faLinkedin } from "@fortawesome/free-brands-svg-icons";
-
 export default function Default() {
   return (
-    <div className="my-auto ml-[2vw] flex flex-col gap-4">
+    <div className="my-auto ml-[2vw] flex flex-col gap-4 overflow-hidden">
       {/* -Tittle- */}
       <h2 className="whitespace-nowrap font-libre text-5xl font-light">
         Hello, I&apos;m
@@ -18,34 +13,7 @@ export default function Default() {
         <strong> Github </strong>
         for collaborative development.
       </p>
-      {/*Social Media bar*/}
-      <ul className="absolute left-[15px] top-[50%] flex flex-col gap-4 text-4xl text-gray-400">
-        <li
-          title="Linkedin"
-          className="transition-all hover:scale-125 hover:text-white"
-        >
-          <a href="">
-            <FontAwesomeIcon icon={faLinkedin} />
-          </a>
-        </li>
-        <li
-          title="Github"
-          className="transition-all hover:scale-125 hover:text-white"
-        >
-          <a href="">
-            <FontAwesomeIcon icon={faGithub} />
-          </a>
-        </li>
-        <li
-          title="Email"
-          className="transition-all hover:scale-125 hover:text-white "
-        >
-          <a href="">
-            <FontAwesomeIcon icon={faEnvelope} />
-          </a>
-        </li>
-      </ul>
-      <button className="w-fit whitespace-nowrap rounded-br-lg rounded-tl-lg border-2 border-white p-2 font-bold transition-all hover:scale-110">
+      <button className="w-fit scale-90 whitespace-nowrap rounded-br-lg rounded-tl-lg border-2 border-white p-2 font-bold transition-all hover:scale-100">
         Download CV
       </button>
       {/* -Achievements- */}
