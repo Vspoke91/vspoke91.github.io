@@ -19,6 +19,28 @@ export default {
       backgroundColor: {
         main: "#1F1F1F",
       },
+      keyframes: {
+        cutIn: {
+          "0%": {
+            clipPath: "polygon(0 0, 0 0, 0 100%, 0% 100%)",
+          },
+          "100%": {
+            clipPath: "polygon(0 0, 100% 0, 100% 100%, 0% 100%)",
+          },
+        },
+        cutOut: {
+          "0%": {
+            clipPath: "polygon(0 0, 100% 0, 100% 100%, 0% 100%)",
+          },
+          "100%": {
+            clipPath: "polygon(0 0, 0 0, 0 100%, 0% 100%)",
+          },
+        },
+      },
+      animation: {
+        cutIn: "cutIn 250ms ease-out forwards",
+        cutOut: "cutOut 250ms linear forwards",
+      },
     },
   },
   plugins: [scrollHide()],
