@@ -5,7 +5,14 @@ import HorizontalScroll from "./DisplayHorizontalScroll.jsx";
 import PropTypes from "prop-types";
 
 //Data Imports
-import KnowledgeDatabase from "@Data/KnowledgeDatabase.js";
+
+const shadowColors = {
+  web: "shadow-blue-400",
+  git: "shadow-orange-400",
+  csharp: "shadow-purple-400",
+  java: "shadow-red-400",
+  python: "shadow-yellow-400",
+};
 
 export default function Default({ currentLanguage, hidden }) {
   return (
