@@ -59,21 +59,63 @@ const shadowColors = {
   python: "shadow-yellow-400",
 };
 
-export default function Default({ currentLanguage, hidden }) {
+export default function Default({ currentLanguage }) {
+  //local language is used for transition to delay the change of language
+  const [localLanguage, setLocalLanguage] = useState(null);
+  const lastLanguage = useRef(null);
+  const holderRef = useRef(null);
+
+  //animations variables used for transition
+  const cutInAnimation = `animate-[cutIn_200ms_ease-out]`;
+  const cutOutAnimation = `animate-[cutOut_200ms_ease-out_forwards]`;
+
+  //timeoutRefs is used to stop the timeout when changing language before transition is done and for cleanup
+  const timeoutId = useRef(null);
+  const timerIdTwo = useRef(null);
+
+  //shadow style
+  const shadowStyle = "shadow-lg-around";
+
+  //transition
+  useEffect(() => {
+    //if current language is null and last language is not null do transition
+    if (!lastLanguage.current && currentLanguage) {
+      setLocalLanguage(currentLanguage);
+    }
+
+    //if current language is not null and last language is not null do transition
+    if (currentLanguage && lastLanguage.current) {
+      //clear timeouts to stop any ongoing transition
+      if (timeoutId) clearTimeout(timeoutId.current);
+      if (timerIdTwo) clearTimeout(timerIdTwo.current);
+
+      //remove cutIn transition to be able to trigger again and remove shadow (looks better)
+      holderRef.current.classList.remove(cutInAnimation, shadowStyle);
+      //start cutOut transition
+      holderRef.current.classList.add(cutOutAnimation);
+
+      //set timeout to change language and start cutIn transition
+      timeoutId.current = setTimeout(() => {
+        setLocalLanguage(currentLanguage);
+        holderRef.current.classList.remove(cutOutAnimation);
+        //start cutIn transition
+        holderRef.current.classList.add(cutInAnimation);
+      }, 200);
+      //set timeout to add shadow after all transition are done
+      timerIdTwo.current = setTimeout(() => {
+        holderRef.current.classList.add(shadowStyle);
+      }, 400); //400ms is the duration of cutIn and cutOut transition
+
+      //cleanup
+      return () => clearTimeout(timeoutId, timerIdTwo);
+    }
+
+    //set last language to current language
+    lastLanguage.current = currentLanguage;
+  }, [currentLanguage, cutInAnimation, cutOutAnimation]);
+
   return (
-    <div className="border-2 border-red-900" hidden={hidden}>
-      <h3>{KnowledgeDatabase[currentLanguage]?.name ?? ""}</h3>
-      <p>
-        <span>Education:</span>
-        <span>{KnowledgeDatabase[currentLanguage]?.acquared ?? ""}</span>
-      </p>
-      <p>
-        <span>Experience:</span>
-        <span>{KnowledgeDatabase[currentLanguage]?.level ?? ""}</span>
-        <span>{` - ${
-          KnowledgeDatabase[currentLanguage]?.usedTime ?? ""
-        }`}</span>
-      </p>
+      ref={holderRef}
       <div>
         <h4>Project</h4>
         <HorizontalScroll>
