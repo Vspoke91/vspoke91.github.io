@@ -115,27 +115,43 @@ export default function Default({ currentLanguage }) {
   }, [currentLanguage, cutInAnimation, cutOutAnimation]);
 
   return (
+    <div
       ref={holderRef}
+      className={`${shadowStyle} ${
+        shadowColors[currentLanguage]
+      } flex w-0 flex-1 flex-col overflow-hidden rounded-lg bg-black transition-all ${
+        !currentLanguage && "hidden"
+      }`}
+    >
+      <h3 className="my-3 text-center font-mono text-3xl font-bold">
+        {infoData[localLanguage]?.name ?? ""}{" "}
+      </h3>
+      <p className="self-center text-lg">
+        {infoData[localLanguage]?.level ?? ""} with{" "}
+        {infoData[localLanguage]?.usedTime ?? ""} of experience
+      </p>
+      <ul className="my-5 flex items-center justify-center gap-3">
+        {infoData[localLanguage]?.technologies.map((item, index) => (
+          <li key={index} className="contents">
+            {iconDictionary[item]}
+          </li>
+        ))}
+      </ul>
       <div>
-        <h4>Project</h4>
+        <h4 className="pl-4 text-2xl font-bold">Check out my projects</h4>
         <HorizontalScroll>
-          {KnowledgeDatabase[currentLanguage]?.showcase.map(
-            (project, index) => {
-              return (
-                <a
-                  key={currentLanguage + project.name + index}
-                  href="google.com"
-                >
-                  <h5 className="text-center font-bold">{project.name}</h5>
-                  <img
-                    src={project.image}
-                    alt={`"${project.name}" Logo`}
-                    className="pointer-events-none"
-                  />
-                </a>
-              );
-            },
-          )}
+          {infoData[localLanguage]?.showcase.map((project, index) => {
+            return (
+              <button key={localLanguage + project.name + index}>
+                <h5 className="text-center font-bold">{project.name}</h5>
+                <img
+                  src={project.image}
+                  alt={`"${project.name}" Logo`}
+                  className="pointer-events-none"
+                />
+              </button>
+            );
+          })}
         </HorizontalScroll>
       </div>
     </div>
@@ -144,5 +160,4 @@ export default function Default({ currentLanguage }) {
 
 Default.propTypes = {
   currentLanguage: PropTypes.string,
-  hidden: PropTypes.bool.isRequired,
 };
