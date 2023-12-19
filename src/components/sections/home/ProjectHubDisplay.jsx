@@ -3,8 +3,53 @@ import HorizontalScroll from "./DisplayHorizontalScroll.jsx";
 
 //React Imports
 import PropTypes from "prop-types";
+import { useEffect, useRef, useState } from "react";
 
 //Data Imports
+import infoData from "@Data/KnowledgeDatabase";
+
+//Icons Imports
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGithub, faUnity } from "@fortawesome/free-brands-svg-icons";
+
+//Variables
+const iconStyles = "hover:scale-125 transition-all h-[70px] w-[70px] inline";
+const iconDictionary = {
+  reactjs: (
+    <img
+      title="ReactJS"
+      src="/images/icons/reactjs.svg"
+      className={`${iconStyles}`}
+    />
+  ),
+  firebase: (
+    <img
+      title="Firebase"
+      src="/images/icons/firebase.svg"
+      className={`${iconStyles}`}
+    />
+  ),
+  tailwindcss: (
+    <img
+      title="TailwindCSS"
+      src="/images/icons/tailwindcss.svg"
+      className={`${iconStyles}`}
+    />
+  ),
+  javafx: (
+    <img
+      title="JavaFX"
+      src="/images/icons/javafx.svg"
+      className={`${iconStyles}`}
+    />
+  ),
+  github: (
+    <FontAwesomeIcon title="Github" icon={faGithub} className={iconStyles} />
+  ),
+  unity: (
+    <FontAwesomeIcon title="Unity" icon={faUnity} className={iconStyles} />
+  ),
+};
 
 const shadowColors = {
   web: "shadow-blue-400",
