@@ -1,147 +1,116 @@
 // Icons Imports
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
-import {
-  faHtml5,
-  faSquareJs,
-  faCss3Alt,
-  faPython,
-  faJava,
-  faGitAlt,
-} from "@fortawesome/free-brands-svg-icons";
+import { faPython, faJava, faGitAlt } from "@fortawesome/free-brands-svg-icons";
 
 //React Imports
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 
 //Components Imports
 import Display from "./ProjectHubDisplay";
 
-export default function Default({ expandHubFunc }) {
-  const [expanded, setExpanded] = useState(false);
-  const [languageSelected, setLanguageSelected] = useState(null);
+export default function Default({ hideIntroFunc }) {
   const holderRef = useRef(null);
 
-  function switchExpand(language) {
-    if (languageSelected !== language) {
-      setExpanded(true);
-      expandHubFunc(true);
+  const [languageSelected, setLanguageSelected] = useState(null);
+
+  useEffect(() => {
+    if (languageSelected) {
+      hideIntroFunc(true);
     } else {
-      setExpanded((prev) => {
-        expandHubFunc(!prev);
-        return !prev;
-      });
+      hideIntroFunc(false);
     }
-    setLanguageSelected(language);
-  }
+  }, [languageSelected, hideIntroFunc]);
+
+  const languageStyles = {
+    li: "flex h-[60px] w-[60px] group hover:scale-110 transition-all relative",
+    icon: "h-full w-full group-hover:brightness-100 brightness-75",
+    iconName:
+      "text-lg font-bold whitespace-nowrap font-mono absolute bottom-0 left-1/2 translate-x-[-50%] translate-y-full hidden group-hover:block",
+  };
 
   return (
-    <div
-      ref={holderRef}
-      aria-expanded={expanded}
-      className="group/hub relative z-0 flex"
-    >
-      {/* -Icons Buttons- */}
-      <ul className="flex w-fit flex-col gap-[3vw]">
-        <li className="group flex w-fit -translate-x-6 items-center text-5xl">
-          <button
-            className="group peer flex items-center"
-            onClick={() => {
-              switchExpand("git");
-            }}
-          >
-            <FontAwesomeIcon icon={faGitAlt} />
-            <span className="ml-1 hidden text-xl group-hover:block group-focus-visible:block group-aria-expanded/hub:group-hover:hidden group-aria-expanded/hub:group-focus-visible:hidden">
-              Git
-            </span>
-          </button>
+    <div ref={holderRef} className="group/hub my-auto flex grow gap-10">
+      <ul className="grid grid-cols-[repeat(2,30px)] gap-y-[60px]">
+        {/* Git */}
+        <li
+          tabIndex="0"
+          role="button"
+          className={`${languageStyles.li} row-[1]`}
+          onClick={() =>
+            setLanguageSelected((prev) => (prev === "git" ? null : "git"))
+          }
+        >
           <FontAwesomeIcon
-            icon={faAngleRight}
-            className="absolute -left-7 hidden text-4xl group-hover:block peer-focus-visible:block"
+            icon={faGitAlt}
+            className={`${languageStyles.icon}`}
           />
+          <span className={`${languageStyles.iconName}`}>Git</span>
         </li>
-        <li className="group flex w-fit items-center text-3xl">
-          <button
-            className="group peer flex items-center"
-            onClick={() => {
-              switchExpand("web");
-            }}
-          >
-            <div className="flex items-center gap-1">
-              <FontAwesomeIcon icon={faHtml5} />
-              <FontAwesomeIcon icon={faSquareJs} />
-              <FontAwesomeIcon icon={faCss3Alt} />
-              <span className="ml-1 hidden text-sm group-hover:block group-focus-visible:block  group-aria-expanded/hub:group-hover:hidden group-aria-expanded/hub:group-focus-visible:hidden">
-                HTML / JavaScript / CSS
-              </span>
-            </div>
-          </button>
-          <FontAwesomeIcon
-            icon={faAngleRight}
-            className="absolute -left-7 hidden text-4xl group-hover:block peer-focus-visible:block"
+        {/* Web */}
+        <li
+          tabIndex="0"
+          role="button"
+          className={`${languageStyles.li} col-[2] row-[2]`}
+          onClick={() =>
+            setLanguageSelected((prev) => (prev === "web" ? null : "web"))
+          }
+        >
+          <img
+            src="/images/icons/htmlcssjavascript.svg"
+            alt=""
+            className={languageStyles.icon}
           />
+          <span className={`${languageStyles.iconName}`}>Web</span>
         </li>
-        <li className="group flex w-fit translate-x-6 items-center text-5xl">
-          <button
-            className="group peer flex items-center"
-            onClick={() => {
-              switchExpand("python");
-            }}
-          >
-            <FontAwesomeIcon icon={faPython} />
-            <span className="ml-1 hidden h-full text-xl group-hover:block group-focus-visible:block  group-aria-expanded/hub:group-hover:hidden group-aria-expanded/hub:group-focus-visible:hidden">
-              Python
-            </span>
-          </button>
+        {/* Python */}
+        <li
+          tabIndex="0"
+          role="button"
+          className={`${languageStyles.li} col-[-1] row-[3]`}
+          onClick={() =>
+            setLanguageSelected((prev) => (prev === "python" ? null : "python"))
+          }
+        >
           <FontAwesomeIcon
-            icon={faAngleRight}
-            className="absolute -left-7 hidden text-4xl group-hover:block peer-focus-visible:block"
+            icon={faPython}
+            className={`${languageStyles.icon}`}
           />
+          <span className={`${languageStyles.iconName}`}>Python</span>
         </li>
-        <li className="group flex w-fit items-center text-5xl">
-          <button
-            className="group peer flex items-center"
-            onClick={() => {
-              switchExpand("java");
-            }}
-          >
-            <FontAwesomeIcon icon={faJava} />
-            <span className="ml-1 hidden text-xl group-hover:block group-focus-visible:block  group-aria-expanded/hub:group-hover:hidden group-aria-expanded/hub:group-focus-visible:hidden">
-              Java
-            </span>
-          </button>
-          <FontAwesomeIcon
-            icon={faAngleRight}
-            className="absolute -left-7 hidden text-4xl group-hover:block peer-focus-visible:block"
-          />
+        {/* Java */}
+        <li
+          tabIndex="0"
+          role="button"
+          className={`${languageStyles.li} col-[2] row-[4]`}
+          onClick={() =>
+            setLanguageSelected((prev) => (prev === "java" ? null : "java"))
+          }
+        >
+          <FontAwesomeIcon icon={faJava} className={`${languageStyles.icon}`} />
+          <span className={`${languageStyles.iconName}`}>Java</span>
         </li>
-        <li className="group flex w-fit -translate-x-6 items-center">
-          <button
-            className="group peer flex items-center"
-            onClick={() => {
-              switchExpand("csharp");
-            }}
-          >
-            <img
-              className="h-[45px]"
-              src="/images/icons/csharp.svg"
-              alt="csharp logo"
-            />
-            <span className="ml-1 hidden text-xl group-hover:block group-focus-visible:block  group-aria-expanded/hub:group-hover:hidden group-aria-expanded/hub:group-focus-visible:hidden">
-              C-Sharp
-            </span>
-          </button>
-          <FontAwesomeIcon
-            icon={faAngleRight}
-            className="absolute -left-7 hidden text-4xl group-hover:block peer-focus-visible:block"
+        {/* C# */}
+        <li
+          tabIndex="0"
+          role="button"
+          className={`${languageStyles.li} row-[5]`}
+          onClick={() =>
+            setLanguageSelected((prev) => (prev === "csharp" ? null : "csharp"))
+          }
+        >
+          <img
+            className={`${languageStyles.icon}`}
+            src="/images/icons/csharp.svg"
+            alt="csharp logo"
           />
+          <span className={`${languageStyles.iconName}`}>C-Sharp</span>
         </li>
       </ul>
-
-      <Display currentLanguage={languageSelected} hidden={!expanded} />
+      <Display currentLanguage={languageSelected} />
     </div>
   );
 }
 Default.propTypes = {
-  expandHubFunc: PropTypes.func.isRequired,
+  hideIntroFunc: PropTypes.func.isRequired,
 };
