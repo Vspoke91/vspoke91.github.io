@@ -130,15 +130,21 @@ export default function Default({ currentLanguage }) {
         {infoData[localLanguage]?.level ?? ""} with{" "}
         {infoData[localLanguage]?.usedTime ?? ""} of experience
       </p>
-      <ul className="my-5 flex items-center justify-center gap-3">
-        {infoData[localLanguage]?.technologies.map((item, index) => (
-          <li key={index} className="contents">
-            {iconDictionary[item]}
-          </li>
-        ))}
-      </ul>
       <div>
-        <h4 className="pl-4 text-2xl font-bold">Check out my projects</h4>
+        <h4 className="pl-4 text-center text-2xl font-bold">Tech Stack</h4>
+
+        <ul className="my-5 flex items-center justify-center gap-3">
+          {infoData[localLanguage]?.technologies.map((item, index) => (
+            <li key={index} className="contents">
+              {iconDictionary[item]}
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div>
+        <h4 className="pl-4 text-center text-2xl font-bold">
+          Check out my projects
+        </h4>
         <HorizontalScroll>
           {infoData[localLanguage]?.showcase.map((project, index) => {
             return (
